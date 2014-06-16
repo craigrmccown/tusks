@@ -4,8 +4,8 @@ module Tusks
       array_string = 'ARRAY['
 
       self.each do |element|
-        raise TypeError.new 'Unsupported Postgres type: ' + element.class.to_s unless element.respond_to? :to_pg_s
-        raise TypeError.new 'Nested arrays not yet supported' if element.is_a? Array
+        raise UnsupportedTypeError.new 'Unsupported type: ' + element.class.to_s unless element.respond_to? :to_pg_s
+        raise NestedArrayError.new 'Nested arrays not yet supported' if element.is_a? Array
 
         array_string << element.to_pg_s << ','
       end
