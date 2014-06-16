@@ -29,7 +29,7 @@ module Tusks
 
       context 'a method defined by #no_results' do
         before :each do
-          @connection.stub(:execute_function)
+          allow(@connection).to receive(:execute_function)
         end
 
         it 'should return nil' do
@@ -44,14 +44,14 @@ module Tusks
 
       context 'a method defined by #one_result' do
         it 'should execute the function with the correct name and arguments' do
-          @connection.stub(:execute_function).and_return([])
+          allow(@connection).to receive(:execute_function).and_return([])
           expect(@connection).to receive(:execute_function).with(:one, 'arg 1', 'arg 2')
           @connection.one('arg 1', 'arg 2')
         end
 
         context 'that has results' do
           before :each do
-            @connection.stub(:execute_function).and_return([{
+            allow(@connection).to receive(:execute_function).and_return([{
               'key 1' => 'value 1',
               'key 2' => 'value 2'
             }])
@@ -67,7 +67,7 @@ module Tusks
 
         context 'that has no results' do
           before :each do
-            @connection.stub(:execute_function).and_return([])
+            allow(@connection).to receive(:execute_function).and_return([])
           end
 
           it 'should return nil' do
@@ -78,14 +78,14 @@ module Tusks
 
       context 'a method defined by #many_results' do
         it 'should execute the function with the correct name and arguments' do
-          @connection.stub(:execute_function).and_return([])
-          @connection.should receive(:execute_function).with(:many, 'arg 1', 'arg 2')
+          allow(@connection).to receive(:execute_function).and_return([])
+          expect(@connection).to receive(:execute_function).with(:many, 'arg 1', 'arg 2')
           @connection.many('arg 1', 'arg 2')
         end
 
         context 'that has results' do
           before :each do
-            @connection.stub(:execute_function).and_return([
+            allow(@connection).to receive(:execute_function).and_return([
               {
                 'key 1' => 'value 1',
                 'key 2' => 'value 2'
@@ -114,7 +114,7 @@ module Tusks
         context 'that has no results' do
           context 'when passed no records' do
             before :each do
-              @connection.stub(:execute_function).and_return []
+              allow(@connection).to receive(:execute_function).and_return []
             end
 
             it 'should return an empty array' do
@@ -134,8 +134,8 @@ module Tusks
         it 'should build the proper SQL string' do
           arg1 = double('arg1')
           arg2 = double('arg2')
-          arg1.stub(:to_pg_s).and_return('arg1#to_pg_s')
-          arg2.stub(:to_pg_s).and_return('arg2#to_pg_s')
+          allow(arg1).to receive(:to_pg_s).and_return('arg1#to_pg_s')
+          allow(arg2).to receive(:to_pg_s).and_return('arg2#to_pg_s')
 
           expect(@connection.instance_eval {
             build_sql_string(
@@ -148,14 +148,14 @@ module Tusks
 
       context 'without arguments' do
         it 'should build the proper SQL string' do
-          @connection.instance_eval { build_sql_string('function_name') }.should eql 'SELECT * FROM function_name()'
+          expect(@connection.instance_eval { build_sql_string('function_name') }).to eql 'SELECT * FROM function_name()'
         end
       end
     end
 
     context 'when first created' do
       it 'should set the passed in options as the connection options' do
-        @connection.instance_variable_get(:@options).should eql ({
+        expect(@connection.instance_variable_get(:@options)).to eql ({
           'key1' => 'value 1',
           'key2' => 'value 2'
         })
