@@ -68,6 +68,7 @@ module Tusks
       sproc_names.each do |sproc_name|
         define_singleton_method(sproc_name) do |*args|
           execute_function(sproc_name, *args)
+          nil
         end
       end
     end
