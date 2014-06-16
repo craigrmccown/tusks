@@ -20,4 +20,6 @@ Gem::Specification.new do |s|
   s.files = `git ls-files -z`.split("\x0")
   s.test_files = Dir.glob('spec/**/*')
   s.require_paths = ['lib']
+
+  s.add_development_dependency 'rspec', '~> 3.0', '>= 3.0.0'
 end
