@@ -1,6 +1,2 @@
-require 'tusks/types/array'
-require 'tusks/types/float'
-require 'tusks/types/hash'
-require 'tusks/types/integer'
-require 'tusks/types/nil'
-require 'tusks/types/string'
+require 'tusks/types/init'
+require 'tusks/error/init'

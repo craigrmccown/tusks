@@ -39,8 +39,8 @@ module Tusks
           @arr << double
         end
 
-        it 'should raise a TypeError' do
-          expect { @arr.to_pg_s }.to raise_error TypeError
+        it 'should raise a Tusks::UnsupportedTypeError' do
+          expect { @arr.to_pg_s }.to raise_error Tusks::UnsupportedTypeError
         end
       end
 
@@ -49,8 +49,8 @@ module Tusks
           @arr << ['asdf']
         end
 
-        it 'should raise a TypeError' do
-          expect { @arr.to_pg_s }.to raise_error TypeError
+        it 'should raise a Tusks::NestedArrayError' do
+          expect { @arr.to_pg_s }.to raise_error Tusks::NestedArrayError
         end
       end
     end
