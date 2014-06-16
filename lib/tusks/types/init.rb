@@ -1,6 +1,0 @@
-require_relative 'array'
-require_relative 'float'
-require_relative 'hash'
-require_relative 'integer'
-require_relative 'nil'
-require_relative 'string'
