@@ -6,6 +6,23 @@ module Tusks
       @connection = Connection.new({'key1' => 'value 1', 'key2' => 'value 2'})
     end
 
+    context 'when first created' do
+      it 'should set the passed in options as the connection options' do
+        expect(@connection.instance_variable_get(:@options)).to eql ({
+          'key1' => 'value 1',
+          'key2' => 'value 2'
+        })
+      end
+
+      it 'should not claim to be in a transaction' do
+        expect(@connection.in_transaction?).to be false
+      end
+
+      it 'should not claim to be connected' do
+        expect(@connection.connected?).to be false
+      end
+    end
+
     context 'after defining a function interface' do
       before :each do
         @connection.functions do
@@ -150,23 +167,6 @@ module Tusks
         it 'should build the proper SQL string' do
           expect(@connection.instance_eval { build_sql_string('function_name') }).to eql 'SELECT * FROM function_name()'
         end
-      end
-    end
-
-    context 'when first created' do
-      it 'should set the passed in options as the connection options' do
-        expect(@connection.instance_variable_get(:@options)).to eql ({
-          'key1' => 'value 1',
-          'key2' => 'value 2'
-        })
-      end
-
-      it 'should not claim to be in a transaction' do
-        expect(@connection.in_transaction?).to be false
-      end
-
-      it 'should not claim to be connected' do
-        expect(@connection.connected?).to be false
       end
     end
   end

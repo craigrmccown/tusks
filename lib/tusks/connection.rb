@@ -50,9 +50,9 @@ module Tusks
     end
 
     def execute_function(sproc_name, *args)
-      connect if !connected?
+      connect if !in_transaction?
       @conn.exec(build_sql_string(sproc_name, *args))
-      disconnect
+      disconnect if !in_transaction?
     end
 
     def build_sql_string(sproc_name, *args)
